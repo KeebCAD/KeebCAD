@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
   --background: oklch(0.91 0.05 82.78);
   --foreground: oklch(0.41 0.08 78.86);
@@ -31,7 +33,7 @@
   --sidebar-primary-foreground: oklch(0.98 0.01 2.18);
   --sidebar-accent: oklch(0.83 0.06 84.44);
   --sidebar-accent-foreground: oklch(0.26 0.02 356.72);
-  --sidebar-border: oklch(0.91 0 0);
+  --sidebar-border: var(--border);
   --sidebar-ring: oklch(0.71 0 0);
 
   --font-sans: Nunito, sans-serif;
@@ -143,4 +145,13 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

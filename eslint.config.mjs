@@ -1,4 +1,3 @@
-import css from '@eslint/css';
 import vitest from '@vitest/eslint-plugin';
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
@@ -32,14 +31,6 @@ export default defineConfigWithVueTs([
           case: 'pascalCase',
         },
       ],
-      'unicorn/prevent-abbreviations': [
-        'error',
-        {
-          replacements: {
-            props: false,
-          },
-        },
-      ],
       'vue/multi-word-component-names': 'off',
       'vue/require-default-prop': 'off',
     },
@@ -63,10 +54,17 @@ export default defineConfigWithVueTs([
     ...pluginPlaywright.configs['flat/recommended'],
   },
   {
-    extends: ['css/recommended'],
-    files: ['**/*.css'],
-    language: 'css/css',
-    plugins: { css },
+    rules: {
+      'unicorn/prevent-abbreviations': [
+        'error',
+        {
+          replacements: {
+            props: false,
+            utils: false,
+          },
+        },
+      ],
+    },
   },
   skipFormatting,
 ]);

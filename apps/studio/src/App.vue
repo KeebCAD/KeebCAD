@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button';
+import AppHeader from '@/components/AppHeader.vue';
+import AppSidebar from '@/components/AppSidebar.vue';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 </script>
 
 <template>
-  <h1>Hello App!</h1>
-  <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
-  <Button>Click me</Button>
-  <nav>
-    <RouterLink to="/">Go to Home</RouterLink>
-  </nav>
-  <main>
-    <RouterView />
-  </main>
+  <SidebarProvider>
+    <AppSidebar />
+    <SidebarInset>
+      <AppHeader />
+      <main class="p-2">
+        <RouterView />
+      </main>
+    </SidebarInset>
+  </SidebarProvider>
 </template>
 
 <style scoped></style>
