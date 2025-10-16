@@ -1,32 +1,38 @@
 import css from '@eslint/css';
-import js from '@eslint/js';
 import vitest from '@vitest/eslint-plugin';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
-import depend from 'eslint-plugin-depend';
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
 import perfectionist from 'eslint-plugin-perfectionist';
+import pluginPlaywright from 'eslint-plugin-playwright';
 import sonarjs from 'eslint-plugin-sonarjs';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import pluginVue from 'eslint-plugin-vue';
-import { defineConfig } from 'eslint/config';
-import globals from 'globals';
+import { globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig([
+export default defineConfigWithVueTs([
   {
-    extends: ['js/recommended', 'depend/flat/recommended'],
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts,vue}'],
-    languageOptions: { globals: { ...globals.browser, ...globals.node } },
-    plugins: { depend, js },
+    files: ['**/*.{ts,mts,tsx,vue}'],
+    name: 'app/files-to-lint',
   },
+  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
   tseslint.configs.recommended,
-  pluginVue.configs['flat/essential'],
+  pluginVue.configs['flat/recommended'],
+  vueTsConfigs.recommended,
   sonarjs.configs.recommended,
   perfectionist.configs['recommended-natural'],
   eslintPluginUnicorn.configs.recommended,
-  eslintConfigPrettier,
   {
     files: ['**/*.vue'],
     languageOptions: { parserOptions: { parser: tseslint.parser } },
+    rules: {
+      'unicorn/filename-case': [
+        'error',
+        {
+          case: 'pascalCase',
+        },
+      ],
+    },
   },
   {
     files: ['**/*.spec.ts'],
@@ -43,9 +49,14 @@ export default defineConfig([
     },
   },
   {
+    files: ['e2e/**/*.{test,spec}.ts'],
+    ...pluginPlaywright.configs['flat/recommended'],
+  },
+  {
     extends: ['css/recommended'],
     files: ['**/*.css'],
     language: 'css/css',
     plugins: { css },
   },
+  skipFormatting,
 ]);
