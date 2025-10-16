@@ -9,7 +9,7 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
     <AppSidebar />
     <SidebarInset>
       <AppHeader />
-      <main class="p-2">
+      <main class="h-full">
         <RouterView />
       </main>
     </SidebarInset>
