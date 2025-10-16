@@ -32,7 +32,16 @@ export default defineConfigWithVueTs([
           case: 'pascalCase',
         },
       ],
+      'unicorn/prevent-abbreviations': [
+        'error',
+        {
+          replacements: {
+            props: false,
+          },
+        },
+      ],
       'vue/multi-word-component-names': 'off',
+      'vue/require-default-prop': 'off',
     },
   },
   {
