@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import type { HTMLAttributes, Ref } from 'vue';
 
-import { useEventListener, useLocalStorage, useMediaQuery, useVModel } from '@vueuse/core';
+import { useLocalStorage, useMediaQuery, useVModel } from '@vueuse/core';
 import { TooltipProvider } from 'reka-ui';
 import { computed, ref } from 'vue';
 
 import { cn } from '@/lib/utils';
 
 import {
-  provideSidebarContext,
-  SIDEBAR_KEYBOARD_SHORTCUT,
-  SIDEBAR_STORAGE_KEY,
+  LEFT_SIDEBAR_STORAGE_KEY,
+  provideEditorLeftSidebarContext,
   SIDEBAR_WIDTH,
   SIDEBAR_WIDTH_ICON,
-} from './utils';
+} from './editor-sidebars';
 
-const storage = useLocalStorage(SIDEBAR_STORAGE_KEY, true);
+const storage = useLocalStorage(LEFT_SIDEBAR_STORAGE_KEY, false);
 
 const props = withDefaults(
   defineProps<{
@@ -49,23 +48,13 @@ function setOpenMobile(value: boolean) {
   openMobile.value = value;
 }
 
-// Helper to toggle the sidebar.
 function toggleSidebar() {
   return isMobile.value ? setOpenMobile(!openMobile.value) : setOpen(!open.value);
 }
 
-useEventListener('keydown', (event: KeyboardEvent) => {
-  if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-    event.preventDefault();
-    toggleSidebar();
-  }
-});
-
-// We add a state so that we can do data-state="expanded" or "collapsed".
-// This makes it easier to style the sidebar with Tailwind classes.
 const state = computed(() => (open.value ? 'expanded' : 'collapsed'));
 
-provideSidebarContext({
+provideEditorLeftSidebarContext({
   isMobile,
   open,
   openMobile,
@@ -86,7 +75,7 @@ provideSidebarContext({
       }"
       :class="
         cn(
-          'group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full',
+          'group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-full w-full',
           props.class,
         )
       "

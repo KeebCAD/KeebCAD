@@ -30,6 +30,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/projects': RouteRecordInfo<
+      '/projects',
+      '/projects',
+      Record<never, never>,
+      Record<never, never>,
+      | '/projects/(editor)/layout'
+    >,
+    '/projects/(editor)/layout': RouteRecordInfo<
+      '/projects/(editor)/layout',
+      '/projects/layout',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -46,6 +60,33 @@ declare module 'vue-router/auto-routes' {
     'src/pages/index.vue': {
       routes:
         | '/'
+      views:
+        | never
+    }
+    'src/pages/projects.vue': {
+      routes:
+        | '/projects'
+        | '/projects/(editor)/layout'
+      views:
+        | 'default'
+        | 'left-sidebar'
+        | 'right-sidebar'
+    }
+    'src/pages/projects/(editor)/layout.vue': {
+      routes:
+        | '/projects/(editor)/layout'
+      views:
+        | never
+    }
+    'src/pages/projects/(editor)/layout@left-sidebar.vue': {
+      routes:
+        | '/projects/(editor)/layout'
+      views:
+        | never
+    }
+    'src/pages/projects/(editor)/layout@right-sidebar.vue': {
+      routes:
+        | '/projects/(editor)/layout'
       views:
         | never
     }
